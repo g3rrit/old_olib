@@ -1,5 +1,5 @@
-#ifndef CSTL_LIST_H
-#define CSTL_LIST_H
+#ifndef SLIBC_LIST_H
+#define SLIBC_LIST_H
 
 #include <stdint.h>
 
@@ -24,7 +24,8 @@ void list_drop(list_t *this);
 /**
  * Returns the size of a list.
  * @param this the list referenced.
- * @return the size of the list
+ * @return the size of the list.
+ *         returns 0 if the list is not initialized.
  */
 size_t list_size(list_t *this);
 
@@ -49,6 +50,8 @@ void list_prepend(list_t *this, void *elem);
  * Retrieves an element at position i from a list.
  * @param this the list referenced.
  * @param i the offset starting from 0
+ * @return the element at position i.
+ *         0 if list_size(this) <= i or the list is not initialized.
  */
 void *list_at(list_t *this, size_t i);
 
@@ -56,7 +59,8 @@ void *list_at(list_t *this, size_t i);
  * Returns an iterator for a list
  * @see iterator
  * @param this the list referenced.
- * @return an iterator of a list
+ * @return an iterator of a list.
+ *         0 if the list is not initialized.
  */
 void *list_iterator(list_t *this);
 
