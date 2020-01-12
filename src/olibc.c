@@ -1,4 +1,4 @@
-#include "slibc.h"
+#include "olibc.h"
 
 void panic(const char *fmt, ...) {
   va_list args;

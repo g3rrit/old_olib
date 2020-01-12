@@ -1,27 +1,17 @@
-#ifndef SLIBC_ITERATOR_H
-#define SLIBC_ITERATOR_H
+#ifndef OLIBC_ITERATOR_H
+#define OLIBC_ITERATOR_H
 
 typedef struct iterator_t iterator_t;
 
 /**
  * Creates a new iterator.
- * Creates a new iterator.
+ * Creates a new iterator needs to be dropped after usage (@see drop).
  * This function is mainly to be used by the library itself.
- * @param data a pointer to some data stored by the iterator.
- * @param _drop a function that gets called on deletion of the iterator.
- *              @see iterator_drop
- * @param _next a functions that gets called on requesting the next element of an iterator.
+ * @param data an obj storing some data by the iterator.
+ * @param next a functions that gets called on requesting the next element of an iterator.
  *              @see iterator_next
  */
-iterator_t *iterator_create(void *data, void (*_drop)(void*), void *(*_next)(void*));
-
-/**
- * Drops the iterator after usage.
- * Drops the iterator if no longer needed.
- * This needs to be done in order to avoid memory leaks.
- * @param this the iterator referenced.
- */
-void iterator_drop(iterator_t *this);
+iterator_t *iterator_new(void *data, void *(*next)(void*));
 
 /**
  * Retrieves the next element of the iterator.

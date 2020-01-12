@@ -1,5 +1,5 @@
-#ifndef SLIBC_H
-#define SLIBC_H
+#ifndef OLIBC_H
+#define OLIBC_H
 
 #include <stdint.h>
 #include <stdlib.h>

@@ -1,25 +1,19 @@
-#ifndef SLIBC_LIST_H
-#define SLIBC_LIST_H
+#ifndef OLIBC_LIST_H
+#define OLIBC_LIST_H
 
 #include <stdint.h>
+#include <stdlib.h>
 
 #include "iterator.h"
 
 typedef struct list_t list_t;
 
 /**
- * Initialize a list.
- * The list initialized here needs to be dropped.
- * @param this the list referenced.
+ * Creates a list.
+ * The list created here needs to be dropped (@see drop).
+ * @return the newly created list.
  */
-void list_init(list_t *this);
-
-/**
- * Drops a list.
- * The list dropped here needs to be initialized bevorehand.
- * @param this the list referenced.
- */
-void list_drop(list_t *this);
+list_t *list_new();
 
 /**
  * Returns the size of a list.
