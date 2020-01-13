@@ -1,7 +1,6 @@
 #include "list.h"
 
 #include "olibc.h"
-#include "obj.h"
 
 typedef struct list_node_t {
 	void *elem;
@@ -36,7 +35,9 @@ list_t *list_new() {
 	res->size = 0;
 	res->head = 0;
 	res->end = 0;
-	return obj(res, (dropf)&_list_drop);
+	return ptr(res, LAMBDA(void, (void *this), {
+		_list_drop((list_t*)this);
+	}));
 }
 
 size_t list_size(list_t *this) {
@@ -51,12 +52,7 @@ void list_prepend(list_t *this, void *elem) {
 }
 
 void *list_at(list_t *this, size_t i) {
-}
-
-
-void _list_iterator_drop(void *data) { 
-	if (!data) return;
-	free(data);
+	return 0;
 }
 
 void *list_iterator_next(void *data) {
@@ -69,7 +65,10 @@ void *list_iterator_next(void *data) {
 
 void *list_iterator(list_t *this) {
 	list_node_t **data = smalloc(sizeof(list_node_t**));
-	return iterator_new(obj(data, (dropf)&_list_iterator_drop), &list_iterator_next);
+	return iterator_new(ptr(data, LAMBDA(void, (void *data), {
+		if (!data) return;
+		free(data);
+	})), &list_iterator_next);
 }
 
 
