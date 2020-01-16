@@ -2,12 +2,12 @@ cmake_minimum_required(VERSION 3.10)
 
 project(olibc)
 
-set(CMAKE_C_COMPILER clang) 
+set(CMAKE_C_COMPILER gcc) 
 
-SET(CLANG_COVERAGE_COMPILE_FLAGS "-fblocks")
-SET(CLANG_COVERAGE_LINK_FLAGS    "")
+SET(GCC_COVERAGE_COMPILE_FLAGS "")
+SET(GCC_COVERAGE_LINK_FLAGS    "")
 
-add_definitions(${CLANG_COVERAGE_COMPILE_FLAGS})
+add_definitions(${GCC_COVERAGE_COMPILE_FLAGS})
 
 add_library(olibc 
 	src/olibc.c 

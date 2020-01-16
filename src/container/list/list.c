@@ -31,13 +31,16 @@ void _list_drop(list_t *this) {
 }
 
 list_t *list_new() {
-	list_t *res = smalloc(sizeof(list_t));
+	void _drop(void *t) {
+		_list_drop((list_t*)t);
+	}
+
+	list_t *res = ptr(sizeof(list_t), _drop);
 	res->size = 0;
 	res->head = 0;
 	res->end = 0;
-	return ptr(res, LAMBDA(void, (void *this), {
-		_list_drop((list_t*)this);
-	}));
+
+	return res;
 }
 
 size_t list_size(list_t *this) {
@@ -64,11 +67,9 @@ void *list_iterator_next(void *data) {
 }
 
 void *list_iterator(list_t *this) {
-	list_node_t **data = smalloc(sizeof(list_node_t**));
-	return iterator_new(ptr(data, LAMBDA(void, (void *data), {
-		if (!data) return;
-		free(data);
-	})), &list_iterator_next);
+
+	list_node_t **data = ptr(sizeof(list_node_t**), 0);
+	return iterator_new(data, &list_iterator_next);
 }
 
 

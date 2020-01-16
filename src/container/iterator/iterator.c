@@ -8,14 +8,16 @@ typedef struct iterator_t {
 } iterator_t;
 
 iterator_t *iterator_new(void *data, void *(*next)(void*)) {
-	iterator_t *res = smalloc(sizeof(iterator_t));
+	void _drop(void *t) {
+		if (!t) return;
+		drop(((iterator_t*)t)->_data);
+	}
+
+	iterator_t *res = ptr(sizeof(iterator_t), &_drop);
 	res->_data = data;
 	res->_next = next;
-	return ptr(res, LAMBDA(void, (void *this), {
-		if (!this) return;
-		drop(((iterator_t*)this)->_data);
-		free(this);
-	}));
+
+	return res;
 }
 
 void *iterator_next(iterator_t *this) {
