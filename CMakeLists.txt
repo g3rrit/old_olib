@@ -12,10 +12,12 @@ add_definitions(${GCC_COVERAGE_COMPILE_FLAGS})
 add_library(olibc 
 	src/olibc.c 
 	src/container/iterator/iterator.c
+	src/container/array/array.c
 	src/container/list/list.c)
 
 target_include_directories(olibc PUBLIC 
 	include 
 	include/container/iterator
+	include/container/array
 	include/container/list)
 

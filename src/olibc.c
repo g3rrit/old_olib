@@ -24,23 +24,25 @@ typedef struct ptr_t {
 	uint8_t  _data[];
 } ptr_t;
 
-void *ptr(size_t size, dropf drop) {
+#define DIFF_PTR(data_) (data_ - offsetof(ptr_t, _rc))
+
+void *ptr(size_t size, dropf dropfn) {
 	ptr_t *res = smalloc(offsetof(ptr_t, _rc) + size);
-	res->_drop = drop;
+	res->_drop = dropfn;
 	res->_rc   = 1;
 	return (void*) res->_data;
 }
 
 void *share(void *data) {
 	if (!data) return 0;
-	ptr_t *ptr = data - offsetof(ptr_t, _rc);
+	ptr_t *ptr = DIFF_PTR(data);
 	ptr->_rc++;
 	return data;
 }
 
 void drop(void *data) {
 	if (!data) return;
-	ptr_t *ptr = data - offsetof(ptr_t, _rc);
+	ptr_t *ptr = DIFF_PTR(data);
 	if (--ptr->_rc) return;
 	if (ptr->_drop) ptr->_drop(data);
 	free(ptr);
